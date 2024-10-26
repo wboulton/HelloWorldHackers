@@ -3,7 +3,7 @@ import requests
 import re
 from bs4 import BeautifulSoup
 
-currentMajor = "Marketing, BS" #temporary
+currentMajor = ["Mathematics, BS"] #temporary
 
 def scrape(url):
     # Send a GET request to the URL
@@ -39,12 +39,21 @@ def scrape(url):
         output.append("")
 
     # Split the output array into two lists based on the split line
-    split_index = output.index("Major Selectives - Choose Six (18 credits)")
+    split_index = -1  # Initialize with -1 to indicate not found
+    for i, item in enumerate(output):
+        if "Selective" in item:
+            split_index = i
+            break  # Exit the loop once found
+
+    if split_index != -1:
+        print(f"'Major Selectives' found at index: {split_index}")
+    else:
+        print("'Major Selectives' not found in the output.")
     number = output.count('')
     for i in range (number):
         output.remove('')
-    major_requirements = output[:split_index]
-    major_selectives = output[split_index:]
+    major_requirements = output[:split_index - 2]
+    major_selectives = output[split_index - 2:]
     return major_requirements,major_selectives
     
 def scrape2(url):
@@ -102,7 +111,6 @@ def scrape2(url):
     with open('majorSelectives.txt', 'w') as file2:
         file2.writelines(lines[split_index:])
     
-
 def find_link(search_word):
     results = []
     
@@ -115,23 +123,23 @@ def find_link(search_word):
 
     return results
 
-# Assuming majorLink is defined and contains a valid string
-majorLink = find_link(currentMajor)
-link = majorLink[0]
-print(link)
-# Find the index of the first '&'
-index = link.index("returnto")
+requirements = []
+selectives = []
+for major in currentMajor:
+    majorLink = find_link(major)
+    link = majorLink[0]
+        # Find the index of the first '&'
+    index = link.index("returnto")
 
-if index != -1:
-    # Keep everything up to the second '&'
-    trimmedlink = link[:index - 1]
-else:
-    # If there is no second '&', keep the original link
-    trimmedlink = link
+    if index != -1:
+            # Keep everything up to the second '&'
+        trimmedlink = link[:index - 1]
+    else:
+            # If there is no second '&', keep the original link
+        trimmedlink = link
+    these_requirements, these_selectives = scrape(trimmedlink)
+    requirements.append(these_requirements)
+    selectives.append(these_selectives)   
 
-print("Trimmed Major Link:", trimmedlink)
-
-
-requirements, selectives = scrape(trimmedlink)
 print(requirements)
 print(selectives)
