@@ -46,6 +46,7 @@ def scrape(url):
             if is_class or "Selective" in text:
                 output.append(text)
 
+    output = [re.split(r'[^\x00-\x7F]', item)[0].strip() for item in output]
     # Split the output array into two lists based on the split line
     split_index = -1  # Initialize with -1 to indicate not found
     for i, item in enumerate(output):
