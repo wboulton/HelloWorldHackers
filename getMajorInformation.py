@@ -20,10 +20,6 @@ def scrape(url):
         if isinstance(row, NavigableString):
             continue
 
-        for element in row.find_all("h3"):
-            if "Major" in element.text and "Courses" in element.text:
-                logging = True
-
         if logging:
             if "college" in row.text.lower() and "core" in row.text.lower():
                 break 
@@ -31,7 +27,7 @@ def scrape(url):
             is_class = False
 
             if row.h3:
-                text = row.h3.text
+                text = "Selective";
 
             if row.h4:
                 text = row.h4.text
@@ -45,6 +41,12 @@ def scrape(url):
 
             if is_class or "Selective" in text:
                 output.append(text)
+
+        for element in row.find_all("h3"):
+            if "Major" in element.text and "Courses" in element.text:
+                logging = True
+ 
+    output = [re.split(r'[^\x00-\x7F]', item)[0].strip() for item in output]
 
     # Split the output array into two lists based on the split line
     split_index = -1  # Initialize with -1 to indicate not found
