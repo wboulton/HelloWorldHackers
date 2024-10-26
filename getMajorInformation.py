@@ -45,10 +45,6 @@ def scrape(url):
             split_index = i
             break  # Exit the loop once found
 
-    if split_index != -1:
-        print(f"'Major Selectives' found at index: {split_index}")
-    else:
-        print("'Major Selectives' not found in the output.")
     number = output.count('')
     for i in range (number):
         output.remove('')
@@ -131,5 +127,14 @@ for major in currentMajor:
     requirements.append(these_requirements)
     selectives.append(these_selectives)   
 
-print(requirements)
-print(selectives)
+#print(requirements)
+#print(selectives)
+
+def get_info(major): 
+    requirements = []
+    selectives = []
+    link = find_link(major)
+    these_requirements, these_selectives = scrape(link)
+    requirements.append(these_requirements)
+    selectives.append(these_selectives)
+    return requirements,selectives
