@@ -30,7 +30,7 @@ def find_majors(college):
 
 college = find_college(current_major[0])    
 find_majors(college)
-college_majors = ["Physics, BS", "Turf Management and Science, BS"]
+college_majors = ["Physics, BS", "Turf Management and Science, BS", "Aquatic Sciences: Fisheries Concentration, BS"]
 current_requirements, current_selectives = getMajorInformation.get_info(current_major[0])
 major_similarity = []
 for major in college_majors:
@@ -46,7 +46,7 @@ for major in college_majors:
     selectives_required = 0
     match = re.search(r'\d+', selectives[0][0])
     if match:
-        selectives_required = int(match.group())
+        selectives_required = int(match.group()) / 3
     else:
         selectives_required = 0
     for course in selectives[0]:
