@@ -58,4 +58,6 @@ for major in college_majors:
         k += 1
     major_similarity.append([major, k+i])
 
-print(major_similarity)
+sorted_data = sorted(major_similarity, key=lambda x: x[1])
+
+print(sorted_data)
