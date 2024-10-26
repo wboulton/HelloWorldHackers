@@ -4,6 +4,11 @@ b01lers for the win
 ![alt text](ProgramFlow.jpg)
 
 
+### `npm i`
+
+Installs the dependencies.
+
+
 ### `npm start`
 
 Runs the app in the development mode.\
