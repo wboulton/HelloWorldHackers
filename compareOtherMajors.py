@@ -30,7 +30,6 @@ def find_majors(college):
 
 college = find_college(current_major[0])    
 find_majors(college)
-
 current_requirements = []
 current_selectives = []
 for major in current_major:
@@ -66,7 +65,7 @@ for major in college_majors:
         if (course in current_requirements) or (course in current_selectives):
             print(course, current_requirements,current_selectives)
             continue
-        if k > selectives_required:
+        if k >= selectives_required:
             break
         k += 1
     major_similarity.append([major, k+i])
