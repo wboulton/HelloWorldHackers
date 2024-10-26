@@ -30,6 +30,8 @@ for section in sections:
     
         if element.a:
             text = element.a.text
+        elif " -" in text:
+            text = text[:text.index(" -")]
     
         if text[-1] == " ":
             text = text[:-1]
