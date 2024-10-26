@@ -112,22 +112,21 @@ def scrape2(url):
         file2.writelines(lines[split_index:])
     
 def find_link(search_word):
-    results = []
+    results = ''
     
     with open("public/linksUltraCleaned.csv", mode='r', newline='', encoding='utf-8') as csvfile:
         csvreader = csv.reader(csvfile)
         
         for row in csvreader:
             if row and row[0] == search_word:  # Check if the first column matches the search word
-                results.append(row[-1])  # Append the last column to results
+                results = row[2]  # Append the last column to results
 
     return results
 
 requirements = []
 selectives = []
 for major in currentMajor:
-    majorLink = find_link(major)
-    link = majorLink[0]
+    link = find_link(major)
     these_requirements, these_selectives = scrape(link)
     requirements.append(these_requirements)
     selectives.append(these_selectives)   
