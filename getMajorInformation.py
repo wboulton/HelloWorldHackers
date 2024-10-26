@@ -3,7 +3,7 @@ import requests
 import re
 from bs4 import BeautifulSoup
 
-currentMajor = ["Mathematics, BS"] #temporary
+currentMajor = ["Marketing, BS"] #temporary
 
 def scrape(url):
     # Send a GET request to the URL
@@ -127,7 +127,8 @@ requirements = []
 selectives = []
 for major in currentMajor:
     majorLink = find_link(major)
-    these_requirements, these_selectives = scrape(majorLink)
+    link = majorLink[0]
+    these_requirements, these_selectives = scrape(link)
     requirements.append(these_requirements)
     selectives.append(these_selectives)   
 
