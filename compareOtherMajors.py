@@ -4,7 +4,7 @@ import re
 from bs4 import BeautifulSoup
 import getMajorInformation
 
-current_major = ["English Education, BA"] #send input here
+current_major = ["Computer Science: Security, BS"]
 college_majors = []
 
 def find_college(search_word):
@@ -60,6 +60,17 @@ def compare(current_major):
                 i += 1
         k = 0
         selectives_required = 0
+        if match:
+            selectives_required = int(match.group()) / 3
+        else:
+            selectives_required = 0
+        for course in selectives:
+            if (course in current_requirements) or (course in current_selectives):
+                #print(course, current_requirements,current_selectives)
+                continue
+            if k >= selectives_required:
+                break
+            k += 1
         if selectives:
             match = re.search(r'\d+', selectives[0][0])
             if match:
