@@ -75,8 +75,8 @@ for major in currentMajor:
     requirements.append(these_requirements)
     selectives.append(these_selectives)   
 
-print(requirements)
-print(selectives)
+#print(requirements)
+#print(selectives)
 
 def get_info(major): 
     requirements = []
