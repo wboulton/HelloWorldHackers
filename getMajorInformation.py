@@ -1,7 +1,7 @@
 import csv
 import requests
 import re
-from bs4 import BeautifulSoup
+from bs4 import BeautifulSoup, NavigableString
 
 currentMajor = ["Marketing, BS"] #temporary
 
@@ -16,27 +16,30 @@ def scrape(url):
     # Initialize the list to store courses and required titles
     output = []
 
-    for element in soup.find_all("div"):
-        if element.h2 and "Major Courses" in element.h2.text:
-            sections = element.next_sibling.children
+    logging = False
 
-    for section in sections:
-        output.append(section.h3.text)
-        output.append("")
-        for element in section.find_all("li"):
-            text = element.text
-            if len(text) == 1:
+    for row in soup.table.contents:
+        if isinstance(row, NavigableString):
+            continue
+
+        for element in row.find_all("h3"):
+            if "Major Courses" in element.text:
+                logging = True
+
+        if logging:
+            if row.h3:
+                if "Selective" in row.h3.text:
+                    break
+                output.append(row.h3.text)
                 continue
-            if element.a:
-                text = element.a.text
-            elif " -" in text:
-                text = text[:text.index(" -")]
-            
-            if text[-1] == " ":
-                text = text[:-1]
-            
-            output.append(text)
-        output.append("")
+
+            if row.th:
+                output.append(row.th.text)
+                continue
+
+            if row.td and "course" in row.td.get("class"):
+                output.append(row.td.text)
+                continue
 
     # Split the output array into two lists based on the split line
     split_index = -1  # Initialize with -1 to indicate not found
@@ -55,7 +58,7 @@ def scrape(url):
 def find_link(search_word):
     results = ''
     
-    with open("public/linksUltraCleaned.csv", mode='r', newline='', encoding='utf-8') as csvfile:
+    with open("public/links.csv", mode='r', newline='', encoding='utf-8') as csvfile:
         csvreader = csv.reader(csvfile)
         
         for row in csvreader:
@@ -72,8 +75,8 @@ for major in currentMajor:
     requirements.append(these_requirements)
     selectives.append(these_selectives)   
 
-#print(requirements)
-#print(selectives)
+print(requirements)
+print(selectives)
 
 def get_info(major): 
     requirements = []
