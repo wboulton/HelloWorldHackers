@@ -10,7 +10,7 @@ college_majors = []
 def find_college(search_word):
     results = ''
     
-    with open("public/linksUltraCleaned.csv", mode='r', newline='', encoding='utf-8') as csvfile:
+    with open("public/links.csv", mode='r', newline='', encoding='utf-8') as csvfile:
         csvreader = csv.reader(csvfile)
         
         for row in csvreader:
@@ -20,7 +20,7 @@ def find_college(search_word):
     return results
 
 def find_majors(college):
-    with open("public/linksUltraCleaned.csv", mode='r', newline='', encoding='utf-8') as csvfile:
+    with open("public/links.csv", mode='r', newline='', encoding='utf-8') as csvfile:
         csvreader = csv.reader(csvfile)
         
         for row in csvreader:
@@ -56,6 +56,8 @@ for major in college_majors:
         i += 1
     k = 0
     selectives_required = 0
+    if (selectives == None or selectives[0] == None):
+        continue
     match = re.search(r'\d+', selectives[0][0])
     if match:
         selectives_required = int(match.group()) / 3
