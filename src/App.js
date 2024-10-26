@@ -39,9 +39,9 @@ function App() {
       </header>
       <main className="App-main">
         <h2>Find what degrees you could add with the fewest additional classes</h2>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} style={{ width: '80%', maxWidth: '800px' }}>
           <h3>Select your current degree(s):</h3>
-          <div className="form-group">
+          <div className="form-group" style={{ width: '100%' }}>
             <label htmlFor="degree">Degree(s): </label>
             <Select
               isMulti
@@ -51,9 +51,19 @@ function App() {
               classNamePrefix="select"
               value={selectedDegrees}
               onChange={setSelectedDegrees}
+              styles={{
+                container: (provided) => ({
+                  ...provided,
+                  width: '100%',
+                }),
+                control: (provided) => ({
+                  ...provided,
+                  width: '100%',
+                }),
+              }}
             />
           </div>
-          <button type="submit" className="submit-button">Submit</button>
+          <button type="submit" className="submit-button" style={{ width: '100%', marginTop: '20px' }}>Submit</button>
         </form>
       </main>
     </div>
