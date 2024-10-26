@@ -54,8 +54,9 @@ def compare(current_major):
         requirements, selectives = getMajorInformation.get_info(major)
         for course in requirements:
             if (course in current_requirements) or (course in current_selectives):
+                print(course)
                 continue
-            if not "or" in course:
+            if not " or " in course:
                 i += 1
         k = 0
         selectives_required = 0
