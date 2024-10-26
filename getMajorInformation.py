@@ -3,8 +3,6 @@ import requests
 import re
 from bs4 import BeautifulSoup, NavigableString
 
-currentMajor = ["Marketing, BS"] #temporary
-
 def scrape(url):
     # Send a GET request to the URL
     response = requests.get(url)
@@ -23,21 +21,26 @@ def scrape(url):
             continue
 
         for element in row.find_all("h3"):
-            if "Major Courses" in element.text:
+            if "Major" in element.text and "Courses" in element.text:
                 logging = True
 
         if logging:
+            if "college" in row.text.lower() and "core" in row.text.lower():
+                break
+
             if row.h3:
-                if "Selective" in row.h3.text:
-                    break
                 output.append(row.h3.text)
+                continue
+
+            if row.h4:
+                output.append(row.h4.text)
                 continue
 
             if row.th:
                 output.append(row.th.text)
                 continue
 
-            if row.td and "course" in row.td.get("class"):
+            if row.td and row.td.get("class") and "course" in row.td.get("class"):
                 output.append(row.td.text)
                 continue
 
@@ -48,11 +51,15 @@ def scrape(url):
             split_index = i
             break  # Exit the loop once found
 
-    number = output.count('')
-    for i in range (number):
-        output.remove('')
-    major_requirements = output[:split_index - 2]
-    major_selectives = output[split_index - 2:]
+    if split_index == -1:
+        major_requirements = output
+        major_selectives = None
+    else:
+        number = output.count('')
+        for i in range (number):
+            output.remove('')
+        major_requirements = output[:split_index]
+        major_selectives = output[split_index:]
     return major_requirements,major_selectives
         
 def find_link(search_word):
@@ -67,17 +74,6 @@ def find_link(search_word):
 
     return results
 
-requirements = []
-selectives = []
-for major in currentMajor:
-    link = find_link(major)
-    these_requirements, these_selectives = scrape(link)
-    requirements.append(these_requirements)
-    selectives.append(these_selectives)   
-
-print(requirements)
-print(selectives)
-
 def get_info(major): 
     requirements = []
     selectives = []
@@ -86,3 +82,9 @@ def get_info(major):
     requirements.append(these_requirements)
     selectives.append(these_selectives)
     return requirements,selectives
+
+if __name__ == "__main__":
+    major = "Economics, BS"
+    requirements,selectives = get_info(major)
+    print(requirements)
+    print(selectives)
