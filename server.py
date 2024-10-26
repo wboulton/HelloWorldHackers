@@ -2,6 +2,11 @@ from flask import Flask
 
 app = Flask(__name__)
 
-@app.route("/api")
-def index_api():
-    return {"message": "hello"}
+@app.route('/')
+def home():
+    return "Hello, Flask!"
+@app.post("/")
+
+
+if __name__ == '__main__':
+    app.run(debug=True)
