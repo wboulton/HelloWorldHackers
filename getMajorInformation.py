@@ -26,23 +26,25 @@ def scrape(url):
 
         if logging:
             if "college" in row.text.lower() and "core" in row.text.lower():
-                break
+                break 
+
+            is_class = False
 
             if row.h3:
-                output.append(row.h3.text)
-                continue
+                text = row.h3.text
 
             if row.h4:
-                output.append(row.h4.text)
-                continue
+                text = row.h4.text
 
             if row.th:
-                output.append(row.th.text)
-                continue
+                text = row.th.text
 
             if row.td and row.td.get("class") and "course" in row.td.get("class"):
-                output.append(row.td.text)
-                continue
+                text = row.td.text
+                is_class = True
+
+            if is_class or "Selective" in text:
+                output.append(text)
 
     # Split the output array into two lists based on the split line
     split_index = -1  # Initialize with -1 to indicate not found
@@ -75,13 +77,8 @@ def find_link(search_word):
     return results
 
 def get_info(major): 
-    requirements = []
-    selectives = []
     link = find_link(major)
-    these_requirements, these_selectives = scrape(link)
-    requirements.append(these_requirements)
-    selectives.append(these_selectives)
-    return requirements,selectives
+    return scrape(link)
 
 if __name__ == "__main__":
     major = "Economics, BS"
