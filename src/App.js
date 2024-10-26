@@ -5,6 +5,7 @@ import './App.css';
 
 function App() {
   const [selectedDegrees, setSelectedDegrees] = useState([]);
+  console.log(selectedDegrees);
   const [options, setOptions] = useState([]);
 
   useEffect(() => {
@@ -28,7 +29,7 @@ function App() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const degrees = selectedDegrees.map(option => option.label).join(', ');
+    const degrees = selectedDegrees.join(', ');
     alert(`Degrees: ${degrees || 'None'}`);
   };
 
@@ -41,29 +42,19 @@ function App() {
         <h2>Find what degrees you could add with the fewest additional classes</h2>
         <form onSubmit={handleSubmit} style={{ width: '80%', maxWidth: '800px' }}>
           <h3>Select your current degree(s):</h3>
-          <div className="form-group" style={{ width: '100%' }}>
+          <div className="form-group">
             <label htmlFor="degree">Degree(s): </label>
             <Select
               isMulti
               name="degrees"
               options={options}
-              className="basic-multi-select"
+              className="basic-multi-select wide-select"
               classNamePrefix="select"
-              value={selectedDegrees}
-              onChange={setSelectedDegrees}
-              styles={{
-                container: (provided) => ({
-                  ...provided,
-                  width: '100%',
-                }),
-                control: (provided) => ({
-                  ...provided,
-                  width: '100%',
-                }),
-              }}
+              value={options.filter(option => selectedDegrees.includes(option.value))}
+              onChange={(selectedOptions) => setSelectedDegrees(selectedOptions.map(option => option.value))}
             />
           </div>
-          <button type="submit" className="submit-button" style={{ width: '100%', marginTop: '20px' }}>Submit</button>
+          <button type="submit" className="submit-button">Submit</button>
         </form>
       </main>
     </div>
