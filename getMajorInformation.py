@@ -114,7 +114,7 @@ def scrape2(url):
 def find_link(search_word):
     results = []
     
-    with open("links.csv", mode='r', newline='', encoding='utf-8') as csvfile:
+    with open("public/linksUltraCleaned.csv", mode='r', newline='', encoding='utf-8') as csvfile:
         csvreader = csv.reader(csvfile)
         
         for row in csvreader:
@@ -127,17 +127,7 @@ requirements = []
 selectives = []
 for major in currentMajor:
     majorLink = find_link(major)
-    link = majorLink[0]
-        # Find the index of the first '&'
-    index = link.index("returnto")
-
-    if index != -1:
-            # Keep everything up to the second '&'
-        trimmedlink = link[:index - 1]
-    else:
-            # If there is no second '&', keep the original link
-        trimmedlink = link
-    these_requirements, these_selectives = scrape(trimmedlink)
+    these_requirements, these_selectives = scrape(majorLink)
     requirements.append(these_requirements)
     selectives.append(these_selectives)   
 
