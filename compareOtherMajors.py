@@ -49,9 +49,9 @@ for major in college_majors:
     i = 0
     print(major)
     requirements, selectives = getMajorInformation.get_info(major)
-    for course in requirements[0]:
+    for course in requirements:
         if (course in current_requirements) or (course in current_selectives):
-            print(course, current_requirements,current_selectives)
+            #print(course, current_requirements,current_selectives)
             continue
         i += 1
     k = 0
@@ -63,9 +63,9 @@ for major in college_majors:
         selectives_required = int(match.group()) / 3
     else:
         selectives_required = 0
-    for course in selectives[0]:
+    for course in selectives:
         if (course in current_requirements) or (course in current_selectives):
-            print(course, current_requirements,current_selectives)
+            #print(course, current_requirements,current_selectives)
             continue
         if k >= selectives_required:
             break
