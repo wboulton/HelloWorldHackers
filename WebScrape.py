@@ -40,7 +40,21 @@ for section in sections:
     output.append("")
 
 # Write the filtered list of courses and titles to a text file
-with open("output.txt", "w") as file:
+with open("temporary.txt", "w") as file:
     for course in output:
         file.write(course + "\n")
 
+# Open the input file and read its contents
+with open('temporary.txt', 'r') as file:
+    lines = file.readlines()
+
+# Find the index of the line to split at
+split_index = lines.index("Major Selectives - Choose Six (18 credits)\n")
+
+# Create the first output file with everything before the split index
+with open('majorRequirements.txt', 'w') as file1:
+    file1.writelines(lines[:split_index])
+
+# Create the second output file with everything from the split index onward
+with open('majorSelectives.txt', 'w') as file2:
+    file2.writelines(lines[split_index:])
