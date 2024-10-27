@@ -27,7 +27,7 @@ def scrape(url):
             is_class = False
 
             if row.h3:
-                text = "Selective";
+                text = row.h3.text;
 
             if row.h4:
                 text = row.h4.text
@@ -43,7 +43,10 @@ def scrape(url):
                 output.append(text)
 
         for element in row.find_all("h3"):
-            if "Major" in element.text and "Courses" in element.text:
+            if (("Major" in element.text) or ("Minor" in element.text)) and (("Courses" in element.text) or ("Requirements" in element.text)):
+                logging = True
+        for element in row.find_all("h2"):
+            if (("Major" in element.text) or ("Minor" in element.text)) and (("Courses" in element.text) or ("Requirements" in element.text)):
                 logging = True
  
     output = [re.split(r'[^\x00-\x7F]', item)[0].strip() for item in output]
@@ -83,7 +86,7 @@ def get_info(major):
     return scrape(link)
 
 if __name__ == "__main__":
-    major = "Economics, BS"
+    major = "Elementary Education, BA"
     requirements,selectives = get_info(major)
     print(requirements)
     print(selectives)

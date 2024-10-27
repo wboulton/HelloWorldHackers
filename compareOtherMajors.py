@@ -55,6 +55,8 @@ def compare(current_major):
         for course in requirements:
             if (course in current_requirements) or (course in current_selectives):
                 continue
+            if course == "Selective":
+                continue
             if not " or " in course:
                 i += 1
         k = 0
@@ -68,6 +70,8 @@ def compare(current_major):
             for course in selectives:
                 if (course in current_requirements) or (course in current_selectives):
                     continue
+                if course == "Selective":
+                    continue
                 if k >= selectives_required:
                     break
                 k += 1
@@ -79,5 +83,5 @@ def compare(current_major):
     return sorted_data
     
 if __name__ == '__main__':
-    data = compare(["Computer Science: Security, BS"])
+    data = compare(["Global Studies Minor"])
     print(data)
