@@ -39,8 +39,8 @@ def scrape(url):
                 text = row.td.text
                 is_class = True
 
-            if is_class or "Selective" in text:
-                output.append(text)
+            if (is_class or "Selective" in text):
+                output.append(text)            
 
         for element in row.find_all("h3"):
             if (("Major" in element.text) or ("Minor" in element.text)) and (("Courses" in element.text) or ("Requirements" in element.text)):
