@@ -21,13 +21,13 @@ def scrape(url):
             continue
 
         if logging:
-            if "college" in row.text.lower() and "core" in row.text.lower():
+            if ("college" in row.text.lower()) and ("core" in row.text.lower()) and ("Credits: " not in row.text):
                 break 
 
             is_class = False
 
             if row.h3:
-                text = row.h3.text;
+                text = row.h3.text
 
             if row.h4:
                 text = row.h4.text
@@ -86,7 +86,7 @@ def get_info(major):
     return scrape(link)
 
 if __name__ == "__main__":
-    major = "Elementary Education, BA"
+    major = "Computer Science: Software Engineering, BS"
     requirements,selectives = get_info(major)
     print(requirements)
     print(selectives)

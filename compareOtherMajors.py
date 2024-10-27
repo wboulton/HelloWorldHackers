@@ -83,5 +83,5 @@ def compare(current_major):
     return sorted_data
     
 if __name__ == '__main__':
-    data = compare(["Global Studies Minor"])
+    data = compare(["Computer Science: Security, BS"])
     print(data)
