@@ -1,5 +1,5 @@
 from flask import Flask, request, jsonify
-from flask_cors import CORS, cross_origin
+from flask_cors import CORS
 import compareOtherMajors
 
 app = Flask(__name__)
@@ -10,15 +10,15 @@ def home():
     return "Hello, Flask!"
 
 @app.route("/api/process", methods=['POST'])
-@cross_origin()
 def process_data():
     data = request.json
     selected_degrees = data.get('selectedDegrees', [])
-    
-    # compareOtherMajors.current_major = selected_degrees
+
     result = compareOtherMajors.compare(selected_degrees)
-    
-    return jsonify(result)
+
+    return jsonify({
+        "result": result
+    })
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host="0.0.0.0", port=5000, debug=True)
