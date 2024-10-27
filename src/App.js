@@ -5,8 +5,8 @@ import './App.css';
 
 function App() {
   const [selectedDegrees, setSelectedDegrees] = useState([]);
-  console.log(selectedDegrees);
   const [options, setOptions] = useState([]);
+  const [comparisonResults, setComparisonResults] = useState([]);
 
   useEffect(() => {
     Papa.parse('/links.csv', {
@@ -27,10 +27,26 @@ function App() {
     });
   }, []);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const degrees = selectedDegrees.join(', ');
-    alert(`Degrees: ${degrees || 'None'}`);
+    try {
+      const response = await fetch('http://localhost:5000/api/process', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          selectedDegrees: selectedDegrees
+        }),
+      });
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      const data = await response.json();
+      setComparisonResults(data);
+    } catch (error) {
+      console.error('Error:', error);
+    }
   };
 
   return (
@@ -56,6 +72,18 @@ function App() {
           </div>
           <button type="submit" className="submit-button">Submit</button>
         </form>
+        {comparisonResults.length > 0 && (
+          <div className="results">
+            <h3>Comparison Results:</h3>
+            <ul>
+              {comparisonResults.map((result, index) => (
+                <li key={index}>
+                  {result[0]}: {result[1]} additional classes
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
       </main>
     </div>
   );
