@@ -54,7 +54,6 @@ def compare(current_major):
         requirements, selectives = getMajorInformation.get_info(major)
         for course in requirements:
             if (course in current_requirements) or (course in current_selectives):
-                print(course)
                 continue
             if not " or " in course:
                 i += 1
@@ -79,5 +78,5 @@ def compare(current_major):
     return sorted_data
     
 if __name__ == '__main__':
-    data = compare(["English Education, BA"])
+    data = compare(["Economics, BS"])
     print(data)
