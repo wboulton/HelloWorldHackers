@@ -74,9 +74,10 @@ def compare(current_major):
         major_similarity.append([major, k+i])
 
     sorted_data = sorted(major_similarity, key=lambda x: x[1])
-
+    if "Computer Science: Security, BS" in current_major:
+        sorted_data.insert(0, "lock in my guy!")
     return sorted_data
     
 if __name__ == '__main__':
-    data = compare(["Economics, BS"])
+    data = compare(["Computer Science: Security, BS"])
     print(data)
