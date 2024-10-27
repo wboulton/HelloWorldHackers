@@ -8,6 +8,7 @@ function App() {
 
   const [selectedDegrees, setSelectedDegrees] = useState([]);
   const [comparisonResults, setComparisonResults] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     Papa.parse('/links.csv', {
@@ -30,6 +31,7 @@ function App() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
     try {
       const response = await fetch('http://localhost:5000/api/process', {
         method: 'POST',
@@ -45,6 +47,8 @@ function App() {
       setComparisonResults(data);
     } catch (error) {
       console.error('Error:', error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -73,7 +77,9 @@ function App() {
         </form>
         <div className="results">
           <h3>Comparison Results:</h3>
-          {comparisonResults.length != [] ? (
+          {isLoading ? (
+            <p>Please wait, processing your request...</p>
+          ) : comparisonResults.length !== 0 ? (
             <ul>
               {comparisonResults.result.map((result, index) => (
                 <li key={index}>
